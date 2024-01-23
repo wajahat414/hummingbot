@@ -98,6 +98,7 @@ class RESTAssistant:
                     error_text = "N/A" if "<html" in error_response else error_response
                     raise IOError(f"Error executing request {method.name} {url}. HTTP status is {response.status}. "
                                   f"Error: {error_text}")
+
             return response
 
     async def call(self, request: RESTRequest, timeout: Optional[float] = None) -> RESTResponse:

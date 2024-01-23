@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 from bidict import bidict
-
+import requests
 from hummingbot.connector.constants import s_decimal_NaN
 from hummingbot.connector.exchange.pibase import pibase_constants as CONSTANTS, pibase_web_utils as web_utils
 from hummingbot.connector.exchange.pibase.pibase_api_order_book_source import PibaseAPIOrderBookDataSource
@@ -44,6 +44,7 @@ class PibaseExchange(ExchangePyBase):
         :param trading_pairs: The market trading pairs which to track order book data.
         :param trading_required: Whether actual trading is needed.
         """
+
         self._pibase_api_key = pibase_api_key
         self._pibase_secret_key =pibase_secret_key
         self._domain = domain
@@ -51,7 +52,7 @@ class PibaseExchange(ExchangePyBase):
         self._trading_pairs = trading_pairs
 
         super().__init__(client_config_map)
-
+        
     @property
     def authenticator(self):
         return PibaseAuth(
@@ -311,6 +312,7 @@ class PibaseExchange(ExchangePyBase):
                 params={
                     "currency_pair": trading_pair
                 },
+
                 is_auth_required=True,
                 limit_id=CONSTANTS.ORDER_STATUS_LIMIT_ID)
 
@@ -431,7 +433,7 @@ class PibaseExchange(ExchangePyBase):
     def _process_order_message(self, order_msg: Dict[str, Any]):
         """
         Updates in-flight order and triggers cancelation or failure event if needed.
-
+_create_web_assistants_factory
         :param order_msg: The order response from either REST or web socket API (they are of the same format)
 
         Example Order:
@@ -511,7 +513,7 @@ class PibaseExchange(ExchangePyBase):
 
     def _initialize_trading_pair_symbols_from_exchange_info(self, exchange_info: Dict[str, Any]):
         mapping = bidict()
-        for symbol_data in filter(web_utils.is_exchange_information_valid, exchange_info):
+        for symbol_data in filter(web_utils.is_exchange_information_valid, exchange_info["data"]):
             mapping[symbol_data["id"]] = combine_to_hb_trading_pair(base=symbol_data["base"],
                                                                     quote=symbol_data["quote"])
         self._set_trading_pair_symbol_map(mapping)
@@ -528,3 +530,20 @@ class PibaseExchange(ExchangePyBase):
         )
 
         return float(resp_json[0]["last"])
+
+### overriding trading_pair request of base_class pybase to pass Public _auth header in get Request ## waj
+
+    async def _make_trading_pairs_request(self) -> Any:
+        exchange_info = await self._api_get(path_url=self.trading_pairs_request_path,is_auth_required=True)
+        return exchange_info
+
+### overirding Netwrok check request
+
+    async def _make_network_check_request(self):
+        await self._api_get(path_url=self.check_network_request_path,is_auth_required=True)
+
+### Fetching Key From USer Credentials
+
+    async def _make_trading_rules_request(self) -> Any:
+        exchange_info = await self._api_get(path_url=self.trading_rules_request_path,is_auth_required=True)
+        return exchange_info

@@ -70,7 +70,7 @@ class UserStreamTrackerDataSource(metaclass=ABCMeta):
         Subscribes to the trade events and diff orders events through the provided websocket connection.
 
         :param websocket_assistant: the websocket assistant used to connect to the exchange
-        """
+        """      
         raise NotImplementedError
 
     async def _process_websocket_messages(self, websocket_assistant: WSAssistant, queue: asyncio.Queue):

@@ -97,6 +97,7 @@ class BinanceAPIOrderBookDataSource(OrderBookTrackerDataSource):
             raise
         except Exception:
             self.logger().error(
+                
                 "Unexpected error occurred subscribing to order book trading and delta streams...",
                 exc_info=True
             )

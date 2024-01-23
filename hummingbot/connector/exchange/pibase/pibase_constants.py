@@ -11,7 +11,6 @@ DEFAULT_DOMAIN = ""
 MAX_ORDER_ID_LEN = 32
 HBOT_ORDER_ID_PREFIX = ""
 BROKER_ID = "hummingbotfound"
-
 USER_SECRET_KEY = ""
 X_DEVICE_INFO = "PMRGG33VNZ2HE6JCHIRESTRCFQRGS4C7MFSGI4TFONZSEORCGEYTKLRZHEXDIMZOGEZDQIRMEJWG6Y3BORUW63RCHIRDCMROHA4TAMBMHAYC4MRTGEZSELBCOVZWK4S7MFTWK3TUEI5CETLPPJUWY3DBF42S4MBAFBMDCMJ3EBGGS3TVPAQHQOBWL43DIKJAIFYHA3DFK5SWES3JOQXTKMZXFYZTMIBIJNEFITKMFQQGY2LLMUQEOZLDNNXSSICDNBZG63LFF4YTCNZOGAXDALRQEBJWCZTBOJUS6NJTG4XDGNRCFQRGIZLWNFRWKX3OMFWWKIR2EJBWQ4TPNVSSAVRRGE3S4MBOGAXDAIBIJRUW45LYFERCYITDNRUWK3TUL52HS4DFEI5CE53FMIRH2==="
 
@@ -21,7 +20,7 @@ PUBLIC_DEPTH_CHANNEL_NAME = "public/spot_orders"
 PRIVATE_ORDER_PROGRESS_CHANNEL_NAME = "spot_orders"
 
 # REST API ENDPOINTS
-CHECK_NETWORK_PATH_URL = "system/service" #not used
+
 GET_TRADING_RULES_PATH_URL = "assets/all?type=CRYPTO"
 GET_LAST_TRADING_PRICES_PATH_URL = "tickers"
 GET_ORDER_BOOK_PATH_URL = "public/spot_orders/order_book"
@@ -37,20 +36,6 @@ WS_CONNECT = "feeder-"
 WS_SUBSCRIBE = "feeder-"
 
 # BitMart has a per method API limit
-RATE_LIMITS = [
-    RateLimit(limit_id=CHECK_NETWORK_PATH_URL, limit=10, time_interval=1),
-    RateLimit(limit_id=GET_TRADING_RULES_PATH_URL, limit=30, time_interval=5),
-    RateLimit(limit_id=GET_LAST_TRADING_PRICES_PATH_URL, limit=30, time_interval=5),
-    RateLimit(limit_id=GET_ORDER_BOOK_PATH_URL, limit=30, time_interval=5),
-    RateLimit(limit_id=CREATE_ORDER_PATH_URL, limit=150, time_interval=5),
-    RateLimit(limit_id=CANCEL_ORDER_PATH_URL, limit=150, time_interval=5),
-    RateLimit(limit_id=GET_ACCOUNT_SUMMARY_PATH_URL, limit=30, time_interval=5),
-    RateLimit(limit_id=GET_ORDER_DETAIL_PATH_URL, limit=150, time_interval=5),
-    RateLimit(limit_id=GET_TRADE_DETAIL_PATH_URL, limit=30, time_interval=5),
-    RateLimit(limit_id=SERVER_TIME_PATH, limit=10, time_interval=1),
-    RateLimit(limit_id=WS_CONNECT, limit=30, time_interval=60),
-    RateLimit(limit_id=WS_SUBSCRIBE, limit=100, time_interval=10),
-]
 
 ORDER_STATE = {
     "OPEN": OrderState.OPEN,
@@ -75,10 +60,11 @@ HBOT_ORDER_ID = "t-HBOT"
 MAX_ID_LEN = 30
 
 REST_URL = "https://staging-api-exchange-gateway.pibase.io/pix"
-REST_URL_AUTH = ""
+REST_URL_AUTH = "http://staging-api-trader-gateway.pibase.io"
+TOKEN_ENDPOINT = "users/login/email"
 WS_URL = "wss://staging-websocket.pibase.io/"
-NETWORK_CHECK_PATH_URL = "spot/currencies/BTC"
-SYMBOL_PATH_URL = "spot/currency_pairs"
+NETWORK_CHECK_PATH_URL = "wallets/wallet_assets"
+SYMBOL_PATH_URL = "symbols/all"
 ORDER_CREATE_PATH_URL = "spot/orders"
 ORDER_DELETE_PATH_URL = "spot/orders/{order_id}"
 USER_BALANCES_PATH_URL = "wallets/wallet_assets"
@@ -132,3 +118,10 @@ RATE_LIMITS = [
     RateLimit(limit_id=ORDER_BOOK_PATH_URL, limit=900, time_interval=1, linked_limits=[LinkedLimitWeightPair(PUBLIC_URL_POINTS_LIMIT_ID)]),
     RateLimit(limit_id=MY_TRADES_PATH_URL, limit=900, time_interval=1, linked_limits=[LinkedLimitWeightPair(PRIVATE_URL_POINTS_LIMIT_ID)]),
 ]
+
+
+class UserInfo:
+    email = "raghul+19@pibase.info"
+    password = "Qwerty@123"
+    
+        
