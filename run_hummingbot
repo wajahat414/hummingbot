@@ -1,37 +1,13 @@
 #!/bin/bash
 
-
+echo "Running Humming Bot Instance"
 cd /Users/devloper/Documents/working/humming_bot/waj_humming_bot/hummingbot
 
-PASSWORD="111414"
-FILENAME=""
+pwd
 
+# conda activate hummingbot
 
-# Run the first Python program in the background and redirect output to log fi
-echo "Starting Hummingbot..."
-
-# Argument parsing
-while getopts ":p:f:" opt; do
-  case $opt in
-    p)
-      PASSWORD="$OPTARG"
-      ;;
-    f)
-      FILENAME="$OPTARG"
-      echo "Filename: $FILENAME"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
-    :)
-      echo "Option -$OPTARG requires an argument." >&2
-      exit 1
-      ;;
-  esac
-done
-
-# Check if bin/hummingbot_quickstart.py exists
+# Check if the hummingbot_quickstart.py command exists
 if [[ ! -f bin/hummingbot_quickstart.py ]]; then
     echo "Error: bin/hummingbot_quickstart.py command not found. Make sure you are in the Hummingbot root directory"
     exit 1
@@ -44,7 +20,7 @@ fi
 # fi
 
 # Build the command to run
-CMD="python ./bin/hummingbot_quickstart.py"
+CMD="./bin/hummingbot_quickstart.py"
 if [[ ! -z "$PASSWORD" ]]; then
     CMD="$CMD -p \"$PASSWORD\""
 fi

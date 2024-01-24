@@ -23,3 +23,4 @@ class RateSourceBase(ABC):
     @abstractmethod
     async def get_prices(self, quote_token: Optional[str] = None) -> Dict[str, Decimal]:
         ...
+ 
