@@ -6,9 +6,11 @@ import grp
 import logging
 import os
 import pwd
+import global_keys
 import subprocess
 from pathlib import Path
 from typing import Coroutine, List
+
 
 import path_util  # noqa: F401
 
@@ -44,6 +46,14 @@ class CmdlineParser(argparse.ArgumentParser):
                           type=str,
                           required=False,
                           help="Specify the password to unlock your encrypted files.")
+        self.add_argument("--config-api-key", "-a",
+                          type=str,
+                          required=False,
+                          help="Specify api key for connector  used at startup .")
+        self.add_argument("--config-secret-key", "-s",
+                          type=str,
+                          required=False,
+                          help="Specify secret key for connector at startup .")
         self.add_argument("--auto-set-permissions",
                           type=str,
                           required=False,
@@ -73,6 +83,11 @@ def autofix_permissions(user_group_spec: str):
 
 async def quick_start(args: argparse.Namespace, secrets_manager: BaseSecretsManager):
     config_file_name = args.config_file_name
+    cmd_api_key = args.config_api_key
+    cmd_secret_key = args.config_secret_key
+    print(cmd_api_key)
+    print(cmd_secret_key)
+    
     client_config_map = load_client_config_map_from_file()
 
     if args.auto_set_permissions is not None:
@@ -125,6 +140,28 @@ async def quick_start(args: argparse.Namespace, secrets_manager: BaseSecretsMana
         tasks.append(start_management_console(locals(), host="localhost", port=management_port))
 
     await safe_gather(*tasks)
+
+
+async def set_api_key(api_key: str):
+    connector_keys= AllConnectorSettings.get_connector_config_keys("binance_perpetual_testnet")
+    connector_config = ClientConfigAdapter(AllConnectorSettings.get_connector_config_keys("binance_perpetual_testnet"))
+    ClientConfigAdapter(AllConnectorSettings.update_connector_config_keys())
+    await Security.wait_til_decryption_done()
+    api_keys = Security.api_keys(connector_config.connector)
+    connector=connector_config.connector
+
+    api_keys.update({f'{connector}_api_key': api_key})
+    api_keys.update({f'{connector}_api_secret': api_key})
+    cm = connector_config
+    for c in cm.traverse():
+        if c.value is not None and c.client_field_data is not None and c.client_field_data.is_connect_key:
+            c.value=api_key
+    return api_keys
+    Security.update_secure_config(connector_config, api_keys)
+
+
+
+
 
 
 def main():

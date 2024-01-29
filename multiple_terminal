@@ -8,11 +8,14 @@ project_dir="/Users/devloper/Documents/working/humming_bot/waj_humming_bot/hummi
 INFILE=args.txt
 IFS=$'\n'
 read -d '' -r -a lines < $INFILE
-echo "${lines[@]}"
+echo "${lines[0]}"
 # Loop to open n terminals
-# for ((i=0; i<$num_terminals; i++)); do
-#   # Open a new Terminal and run the script
-# #   osascript -e "tell app \"Terminal\"
-# #     do script \"cd $project_dir && $script_path\"
-# #   end tell"
-# done
+for ((i=0; i<$num_terminals; i++)); do
+  # Open a new Terminal and run the script
+  password=${lines[i]}
+  script="$script_path $password"
+  echo "$script"
+  osascript -e "tell app \"Terminal\"
+    do script \"cd $project_dir && $script\"
+  end tell"
+done

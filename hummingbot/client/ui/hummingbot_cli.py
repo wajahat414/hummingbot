@@ -102,7 +102,7 @@ class HummingbotCLI(PubSub):
         self._stdout_redirect_context.enter_context(patch_stdout(log_field=self.log_field))
 
         log_level = self.client_config_map.log_level
-        init_logging("hummingbot_logs.yml", self.client_config_map, override_log_level=log_level)
+        init_logging("hummingbot_logs.yml", self.client_config_map, override_log_level=log_level) #create_separate_logging_file_based_on_api_key
 
         self.trigger_event(HummingbotUIEvent.Start, self)
 

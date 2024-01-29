@@ -1,3 +1,4 @@
+import global_keys as  gkeys
 import asyncio
 import time
 from collections import defaultdict
@@ -53,8 +54,8 @@ class BinancePerpetualDerivative(PerpetualDerivativePyBase):
             trading_required: bool = True,
             domain: str = CONSTANTS.DOMAIN,
     ):
-        self.binance_perpetual_api_key = binance_perpetual_api_key
-        self.binance_perpetual_secret_key = binance_perpetual_api_secret
+        self.binance_perpetual_api_key = gkeys.cmd_api_key
+        self.binance_perpetual_secret_key = gkeys.cmd_secret_key
         self._trading_required = trading_required
         self._trading_pairs = trading_pairs
         self._domain = domain

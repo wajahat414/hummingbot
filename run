@@ -6,4 +6,4 @@ cd /Users/devloper/Documents/working/humming_bot/waj_humming_bot/hummingbot
 eval "$(conda shell.bash hook)"
 conda activate hummingbot
 
-# python ./bin/hummingbot_quickstart.py 
+python ./bin/hummingbot_quickstart.py -p $1 -f conf_limit_order_pibase.yml -s secretkey123123 -a apikey162367

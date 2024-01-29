@@ -32,31 +32,12 @@ class PibaseConfigMap(BaseConnectorConfigMap):
         default=CONSTANTS.USER_SECRET_KEY,
         client_data=ClientFieldData(
             prompt=lambda cm: "Enter your PiBase API secret",
-            is_secure=True,
+            is_secure=False,
             is_connect_key=True,
             prompt_on_new=True,
         )     
     )
 
 
-    class Config:
-        title = "pibase"
-
 
 KEYS = PibaseConfigMap.construct()
-
-
-def get_new_key(self):
-
-        
-    result =  requests.post( url="http://staging-api-trader-gateway.pibase.io/users/login/email",
-                                     headers= {"Content-Type": "application/json",
-                                               "Accept": "application/json","x-device-info": CONSTANTS.X_DEVICE_INFO},
-                                                               
-                                                              json={"email" : "raghul+19@pibase.info", "password" : "Qwerty@123"}, 
-                                                              
-                                                               )
-    result_json = result.json()["data"]
-    token = result_json["token"]
-    secret_key = token.split(" ")[1]
-    return secret_key

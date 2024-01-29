@@ -1,4 +1,5 @@
 import asyncio
+import global_keys as gkeys
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
@@ -43,8 +44,9 @@ class BinanceExchange(ExchangePyBase):
                  trading_required: bool = True,
                  domain: str = CONSTANTS.DEFAULT_DOMAIN,
                  ):
-        self.api_key = binance_api_key
-        self.secret_key = binance_api_secret
+        self.api_key = gkeys.cmd_api_key
+        self.secret_key = gkeys.cmd_secret_key
+        print(-f'API key in binance init {self.api_key}  secret key {self.secret_key} ')
         self._domain = domain
         self._trading_required = trading_required
         self._trading_pairs = trading_pairs
