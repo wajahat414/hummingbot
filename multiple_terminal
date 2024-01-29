@@ -1,5 +1,6 @@
 #!/bin/bash
-
+API_KEY="f50eb2eec0ca7d8313ec85e16c4b5d4b6ca2cadf3d27f1fd23deacf0127c3f7a"
+Secret_key="0cddb44c4382181e26dabbd01b70498c39b21df08a073257350aa5ba04f97113"
 # Specify the number of terminals you want to open
 num_terminals=3
 conda_env="hummingbot"
@@ -13,7 +14,7 @@ echo "${lines[0]}"
 for ((i=0; i<$num_terminals; i++)); do
   # Open a new Terminal and run the script
   password=${lines[i]}
-  script="$script_path $password"
+  script="$script_path $password $Secret_key $API_KEY"
   echo "$script"
   osascript -e "tell app \"Terminal\"
     do script \"cd $project_dir && $script\"

@@ -1,2 +1,2 @@
-cmd_api_key =''
-cmd_secret_key = ''
+cmd_api_key ='f50eb2eec0ca7d8313ec85e16c4b5d4b6ca2cadf3d27f1fd23deacf0127c3f7a'
+cmd_secret_key = '0cddb44c4382181e26dabbd01b70498c39b21df08a073257350aa5ba04f97113'
